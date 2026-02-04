@@ -134,6 +134,6 @@ This project is released under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-Our implementation is built upon [LLaVA](https://github.com/haotian-liu/LLaVA) and [CDpruner](https://github.com/Theia-4869/CDPruner). We thank the authors for their open-source contributions.
+Our implementation is built upon [LLaVA](https://github.com/haotian-liu/LLaVA) and [CDPruner](https://github.com/Theia-4869/CDPruner). We thank the authors for their open-source contributions.
 
 ---
