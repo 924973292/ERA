@@ -1,7 +1,7 @@
 # ERA: Entropy-Guided Token Pruning with Rectified Attention
 
 <p align="center">
-	<img src="assets/logo.png" width="480" />
+	<img src="assets/logo.png"/>
 </p>
 
 **ERA** is a training-free, plug-and-play framework for accelerating inference in Multimodal Large Language Models (MLLMs). ERA identifies salient visual tokens via head-wise attention entropy and rectifies the *attention-logit collapse* phenomenon induced by token pruning, enabling **>10× visual token reduction** while maintaining strong performance across benchmarks.
