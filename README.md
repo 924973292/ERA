@@ -1,4 +1,4 @@
-# ERA: Entropy-Guided Token Pruning with Rectified Attention
+# ERA: Entropy-Guided Token Pruning with Rectified Attention for Efficient Inference in MLLMs
 
 <p align="center">
 	<img src="assets/logo.png"/>
