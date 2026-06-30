@@ -1,0 +1,11 @@
+# Core runtime dependencies (reference implementation / integration scripts)
+# Pin/adjust versions based on your CUDA/PyTorch setup.
+
+torch>=2.1
+transformers>=4.39
+accelerate>=0.27
+numpy>=1.24
+packaging>=23.0
+
+# Optional (recommended when available):
+# flash-attn>=2.5

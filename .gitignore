@@ -1,0 +1,10 @@
+# Local tooling / environment
+.venv/
+__pycache__/
+scripts/
+
+# Paper manuscript (not for repo)
+*.pdf
+
+# macOS
+.DS_Store
