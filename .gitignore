@@ -3,7 +3,7 @@
 __pycache__/
 scripts/
 
-# Paper manuscript (not for repo)
+# Local PDF copies
 *.pdf
 
 # macOS

@@ -57,12 +57,11 @@ ERA comprises three synergistic components:
 If you find ERA useful for your research and applications, please cite using this BibTeX:
 
 ```bibtex
-@article{wang2026era,
+@misc{wang2026era,
   title={ERA: Entropy-Guided Visual Token Pruning with Rectified Attention for Efficient MLLMs},
   author={Wang, Yuhao and Qiao, Mu and Diao, Haiwen and Zhuge, Yunzhi and Zhang, Pingping and Zhang, Xindong and Zhang, Lei and Lu, Huchuan},
-  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   year={2026},
-  note={Code available at \url{https://github.com/924973292/ERA}}
+  howpublished={\url{https://github.com/924973292/ERA}}
 }
 ```
 
