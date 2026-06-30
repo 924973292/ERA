@@ -1,124 +1,60 @@
 # ERA: Entropy-Guided Visual Token Pruning with Rectified Attention for Efficient MLLMs
 
-<p align="center">
-	<img src="assets/logo.png"/>
-</p>
+*Training-free, plug-and-play visual token pruning with rectified attention for efficient MLLM inference.*
 
-**ERA** is a training-free, plug-and-play framework for accelerating inference in Multimodal Large Language Models (MLLMs). ERA identifies salient visual tokens via head-wise attention entropy and rectifies *Attention Logit Collapse* induced by token pruning, enabling **>10× visual token reduction** while maintaining strong performance across single-image, multi-image, and video settings. Beyond practical acceleration, ERA establishes logit-preserving visual token pruning as a principled framework for efficient MLLMs.
+[💻 [Code](https://github.com/924973292/ERA)]
 
----
+## 👁️ Overview
 
-## Contents
+Multimodal Large Language Models (MLLMs) incur prohibitive inference costs due to long visual token sequences. Training-free visual token reduction is a practical solution, yet existing methods often distort attention distributions after compression. We identify this overlooked failure mode as **Attention Logit Collapse**: pruning or merging suppresses the accumulated attention logit assigned to visual tokens and shifts attention toward non-visual tokens, even when semantic content is partially preserved via token recycling.
 
-- [Key Features](#key-features)
-- [Method Overview](#method-overview)
-- [Visual Motivation](#visual-motivation)
-- [Qualitative Pruning Results](#qualitative-pruning-results)
-- [Performance](#performance)
-- [Quick Start](#quick-start)
-- [Citation](#citation)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+Meanwhile, head-averaged attention can obscure tokens that are critical to specific heads. Head-wise entropy exposes low-entropy, head-specific responses concentrated on salient regions, providing an auxiliary criterion beyond diversity or sparsity alone.
 
----
+**ERA** addresses both issues with entropy-guided pruning and logit-preserving attention rectification, enabling aggressive compression while preserving visual evidence across single-image, multi-image, and video settings.
 
-## Key Features
+![motivation](assets/Motivation.png)
 
-- **Training-free acceleration**: Improves inference efficiency without additional fine-tuning.
-- **Logit rectification**: Mitigates Attention Logit Collapse so the pruned model better matches the baseline distribution.
-- **Hardware-aware design**: Compatible with **FlashAttention-2** and optimized attention kernels via matrix augmentation (Fig. 2d).
-- **Dual-view selection**: Jointly models visual diversity and head-wise saliency (entropy) to retain fine-grained evidence.
+## ⚙️ Method
 
----
+ERA comprises three synergistic components:
 
-## Method Overview
+1. **Dual-View Entropy Pruning (DEP)** selects anchor tokens in a unified space that jointly models visual diversity and head-wise saliency derived from attention entropy.
+2. **Bias-aware Token Recycling (BTR)** recycles pruned tokens into their nearest anchors and estimates a cluster-level logit bias that records the accumulated contribution of discarded visual evidence.
+3. **Logit-preserving Attention Rectification (LAR)** injects the estimated bias into attention logits to rectify Attention Logit Collapse and keep the compressed attention distribution consistent with the full-sequence baseline. LAR admits a kernel-friendly realization via matrix augmentation and remains compatible with optimized attention implementations such as FlashAttention-2.
 
-<p align="center">
-	<img src="assets/Overall.png" width="92%" />
-</p>
+![framework](assets/Overall.png)
 
-ERA consists of three components:
+## ✨ Highlights
 
-1. **Dual-View Entropy Pruning (DEP)**: Selects anchor tokens by jointly modeling visual diversity and head-wise attention entropy.
-2. **Bias-aware Token Recycling (BTR)**: Recycles pruned tokens into anchors while estimating cluster-level logit bias.
-3. **Logits-Preserving Attention Rectification (LAR)**: Injects log-biases into attention logits to restore distribution consistency.
+1. **>10× visual token reduction** under aggressive compression while maintaining strong benchmark performance.
+2. **93.4%** average performance retention on LLaVA-1.5-7B with only **~5%** visual tokens retained (32 / 576 tokens).
+3. Robust across **LLaVA-1.5**, **LLaVA-NeXT**, **Qwen2.5-VL**, **InternVL3**, and **NEO**, covering static projection, high-resolution, dynamic-resolution, and encoder-free MLLM paradigms.
+4. **FlashAttention-2** compatible via matrix augmentation — no modification to the attention kernel is required.
+5. Delivers practical inference gains, including up to **11.8×** FLOPs reduction, **4.6×** prefill speedup, and **>5×** KV-cache reduction on LLaVA-NeXT-7B under extreme compression.
 
----
-
-## Visual Motivation
-
-<p align="center">
-	<img src="assets/Motivation.png" width="92%" />
-</p>
-
-### Why Entropy?
-
-<p align="center">
-	<img src="assets/Attention.png" width="92%" />
-</p>
-
-Head-averaged attention can obscure fine-grained visual evidence. **DEP** leverages head-wise entropy to identify “confident” tokens (low entropy) that are particularly important to specific heads.
-
-### Why Rectification?
-
-<p align="center">
-	<img src="assets/Collapse.png" width="92%" />
-</p>
-
-Naïve pruning can distort attention-logit distributions and cause Attention Logit Collapse. ERA rectifies logits to more closely match the baseline distribution.
-
----
-
-## Qualitative Pruning Results
-
-<p align="center">
-	<img src="assets/Pruning.png" width="92%" />
-</p>
-
-<p align="center">
-	<img src="assets/PruningDEP.png" width="92%" />
-</p>
-
----
-
-## Performance
-
-### Results
-
-<p align="center">
-	<img src="assets/LLaVA.png" width="92%" />
-</p>
-
-<p align="center">
-	<img src="assets/Qwen.png" width="92%" />
-</p>
-
-<p align="center">
-	<img src="assets/NEO.png" width="92%" />
-</p>
-
-### Efficiency
-
-<p align="center">
-	<img src="assets/Efficiency.png" width="92%" />
-</p>
-
----
-
-## Quick Start
+## 🛠️ Setup
 
 **TO BE DONE.**
 
+### Environment
+
 - Installation instructions and dependency list
+
+### Supported Models
+
+- LLaVA-1.5 / LLaVA-NeXT
+- Qwen2.5-VL
+- InternVL3
+- NEO
+
+### Evaluation
+
 - Example commands for inference and benchmarking
-- Model integration guides (LLaVA / LLaVA-NeXT, Qwen, NEO, etc.)
 - Reproducibility checklist (seeds, configs, evaluation protocol)
 
----
+## 🔖 Citation
 
-## Citation
-
-If you find ERA useful in your research, please cite our paper:
+If you find ERA useful for your research and applications, please cite using this BibTeX:
 
 ```bibtex
 @article{wang2026era,
@@ -130,16 +66,10 @@ If you find ERA useful in your research, please cite our paper:
 }
 ```
 
----
-
-## License
+## 🎟️ License
 
 This project is released under the [MIT License](LICENSE).
 
----
-
-## Acknowledgements
+## 🏅 Acknowledgement
 
 Our implementation is built upon [LLaVA](https://github.com/haotian-liu/LLaVA) and [CDPruner](https://github.com/Theia-4869/CDPruner). We thank the authors for their open-source contributions.
-
----
